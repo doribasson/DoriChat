@@ -1,5 +1,5 @@
 .sidebarChat {
-  /* display: flex; */
+  display: flex;
   padding: 15px;
   cursor: pointer;
   align-items: center;
@@ -10,7 +10,7 @@
   background-color: #ebebeb;
 }
 
-.sidebarChat_info > {
+.sidebarChat_info {
   margin-left: 15px;
 }
 
