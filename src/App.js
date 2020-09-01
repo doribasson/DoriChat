@@ -4,8 +4,13 @@ import "./App.css";
 import Sidebar from "./components/sidebar/Sidebar";
 import Chat from "./components/Chat/Chat";
 import Login from "./components/Login/Login";
+import { actionTypes } from "./reducer";
+import { useStateValue } from "./StateProvider";
 function App() {
-  const [user, setUser] = useState(null);
+  // const [user, setUser] = useState(null);
+
+  const [{ user }, dispatch] = useStateValue();
+
   return (
     <div className="app">
       {!user ? (
