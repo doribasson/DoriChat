@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "./App.css";
-import Sidebar from "./components/sidebar/Sidebar";
-import Chat from "./components/Chat/Chat";
-import Login from "./components/Login/Login";
-import { actionTypes } from "./reducer";
-import { useStateValue } from "./StateProvider";
+import Sidebar from "../../components/sidebar/Sidebar";
+import Chat from "../../components/Chat/Chat";
+import Login from "../../components/Login/Login";
+import { actionTypes } from "../../reducer";
+import { useStateValue } from "../../StateProvider";
 function App() {
   // const [user, setUser] = useState(null);
 

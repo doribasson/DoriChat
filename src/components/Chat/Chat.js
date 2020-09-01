@@ -40,14 +40,16 @@ function Chat() {
   const sendMessage = e => {
     e.preventDefault();
     console.log("you types ", input);
-    db.collection("rooms")
-      .doc(roomId)
-      .collection("messages")
-      .add({
-        message: input,
-        name: user.displayName, //from firebase
-        timestamp: firebase.firestore.FieldValue.serverTimestamp()
-      });
+    if (input) {
+      db.collection("rooms")
+        .doc(roomId)
+        .collection("messages")
+        .add({
+          message: input,
+          name: user.displayName, //from firebase
+          timestamp: firebase.firestore.FieldValue.serverTimestamp()
+        });
+    }
 
     setInput("");
   };
@@ -86,8 +88,8 @@ function Chat() {
         </div>
       </div>
       <div className="chat__body">
-        {messages.map(message => (
-          <p
+        {messages.map((message, i) => (
+          <p key={i}
             className={`chat__message ${message.name === user.displayName &&
               "chat__reciever"}`}
           >
