@@ -51,7 +51,7 @@ function Chat() {
     return size;
   }
 
-  // const [width, height] = useWindowSize();
+  const [width, height] = useWindowSize();
 
   const scrollIntoView = e => {
     e.preventDefault();
@@ -210,7 +210,7 @@ function Chat() {
               )}
             </h3>
             <p>
-              last seen
+              last seen{" "}
               {new Date(messages[messages.length - 1]?.timestamp?.toDate())
                 .toString()
                 .slice(0, 21)}
@@ -233,6 +233,10 @@ function Chat() {
           {search && (
             <div className="search__input">
               <form>
+                <i
+                  onClick={scrollIntoView}
+                  className="fas fa-angle-down search"
+                ></i>
                 <input
                   ref={innerRef}
                   value={searchInput}

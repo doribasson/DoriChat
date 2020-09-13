@@ -24,12 +24,19 @@ function Login() {
   return (
     <div className="login">
       <div className="login__container">
-        <img
-          src="https://upload.wikimedia.org/wikipedia/commons/7/75/Whatsapp_logo_svg.png"
-          alt=""
-        />
+        <img src={require("../../assets/chat-bubble-icon.png")} alt="" />
         <div className="login__text">
           <h1>Sign in to doriChat</h1>
+        </div>
+        <div className="scroll-prompt">
+          <div className="scroll-prompt-arrow-container">
+            <div className="scroll-prompt-arrow">
+              <div></div>
+            </div>
+            <div className="scroll-prompt-arrow">
+              <div></div>
+            </div>
+          </div>
         </div>
         <Button type="submut" onClick={signIn}>
           Sign In with Google
