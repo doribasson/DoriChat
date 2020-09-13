@@ -1,10 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
-import ReactDOM from "react-dom";
 import "./Sidebar.css";
-import { Avatar, IconButton } from "@material-ui/core";
-import DonutLargeIcon from "@material-ui/icons/DonutLarge";
-import ChatIcon from "@material-ui/icons/Chat";
-import MoreVerIcon from "@material-ui/icons/MoreVert";
+import { Avatar } from "@material-ui/core";
 import SearchOutlined from "@material-ui/icons/SearchOutlined";
 import SidebarChat from "./sidebarChat/SidebarChat";
 import db from "../../firebase";
@@ -18,7 +14,7 @@ function Sidebar() {
   const innerRef = useRef(null);
 
   useEffect(() => {
-    console.log(user?.photoURL);
+    // console.log(user?.photoURL);
     const unsubscribe = db.collection("rooms").onSnapshot((
       snapshot //take it from database in firebase
     ) =>
@@ -44,9 +40,9 @@ function Sidebar() {
         room.data.name === searchTerm
     );
     innerRef.current.focus();
-    console.log(findRoomIndex);
+    // console.log(findRoomIndex);
 
-    if (findRoomIndex != -1) {
+    if (findRoomIndex !== -1) {
       // const elmnt = document.querySelector(`.scroll__search${findRoomIndex}`);
       scrollRef.current[findRoomIndex].style.background = "#FFFF99";
       scrollRef.current[findRoomIndex].scrollIntoView({
@@ -57,21 +53,11 @@ function Sidebar() {
       }, 3000);
       setSearchTerm("");
     }
-    // if (findRoomIndex != -1) {
-    //   const elmnt = document.querySelector(`.scroll__search${findRoomIndex}`);
-    //   elmnt.scrollIntoView();
-    //   elmnt.style.backgroundColor = "red";
-    //   setTimeout(() => {
-    //     elmnt.style.backgroundColor = "inherit";
-    //   }, 3000);
-    // }
   };
 
   return (
     <div className="sidebar">
       <div className="sidebar__header">
-        {/* <Avatar src={user?.photoURL} /> */}
-        {/* <Avatar src={user && user.photoURL} /> */}
         <Avatar src={user ? user.photoURL : null} />
         <div className="sidebar__headerRight"></div>
       </div>

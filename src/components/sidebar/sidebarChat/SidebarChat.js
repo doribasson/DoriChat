@@ -3,17 +3,8 @@ import { Link } from "react-router-dom";
 import { Avatar } from "@material-ui/core";
 import "./SidebarChat.css";
 import db from "../../../firebase";
-import Chat from "../../Chat/Chat";
 
-function SidebarChat({
-  id,
-  name,
-  addNewChat,
-  index,
-  searchTerm,
-  scrollRef,
-  rooms
-}) {
+function SidebarChat({ id, name, addNewChat, index, rooms }) {
   const [seed, setSeed] = useState("");
   const [messages, setMessages] = useState("");
 
@@ -33,36 +24,6 @@ function SidebarChat({
     setSeed(Math.floor(Math.random() * 5000));
   }, []);
 
-  // useEffect(() => {
-  //   console.log("chatttt", searchTerm);
-  //   console.log(name);
-  //   console.log(rooms);
-
-  //   handleChange();
-  //   const findRoomIndex = rooms.findIndex(room => room.name === searchTerm);
-  //   console.log(room.name);
-  //   console.log(findRoomIndex);
-  //   if (findRoomIndex != -1) {
-  //     const elmnt = document.querySelector(`.chat__index${findRoomIndex}`);
-  //     elmnt.scrollIntoView();
-
-  // handleChange()
-  // const findRoomIndex = rooms.findIndex(room => room.name === searchTerm);
-  // console.log(findRoomIndex);
-
-  // const findRoomIndex = rooms.findIndex(room => room.name === searchTerm);
-
-  // if (findRoomIndex != -1) {
-  //   const elmnt = document.querySelector(`.chat__index${findRoomIndex}`);
-  //   elmnt.scrollIntoView();
-  // }
-  // if (scrollRef !== undefined && name === searchTerm) {
-  //   scrollRef.current.scrollIntoView();
-  // if (name === searchTerm) {
-
-  // }
-  // }, []);
-
   const createChat = () => {
     const roomName = prompt("pls enter name for chat");
     if (roomName) {
@@ -74,13 +35,12 @@ function SidebarChat({
 
   const showSidebar = () => {
     if (window.screen.width < 600) {
-      console.log("showsidebarChat");
+      // console.log("showsidebarChat");
       document.querySelector(".sidebar").style.display = "none";
 
       const isMobileVersion = document.getElementsByClassName("chat"); //if class exist
       if (isMobileVersion.length > 0) {
         document.querySelector(".chat").style.display = "flex";
-        //isMobileVersion[0].style.color = "red";
       }
     }
   };
@@ -95,7 +55,6 @@ function SidebarChat({
         <div className={`sidebarChat_info`}>
           <h2 className={`nameColor${index}`}>{name}</h2>
           <p>{messages[0]?.message.slice(0, 20)}</p>
-          {/* <p>Last message...</p> */}
         </div>
       </div>
     </Link>
@@ -103,7 +62,6 @@ function SidebarChat({
     <div onClick={createChat} className="sidebarChat">
       <h2>Add a new Chat</h2>
       <i className="fas fa-user-plus myPlus"></i>
-      {/* <img src={require("../../../assets/plus.png")} /> */}
     </div>
   );
 }
