@@ -4,12 +4,7 @@ import "./Chat.css";
 import { useParams } from "react-router-dom";
 import db from "../../firebase";
 import { Avatar, IconButton } from "@material-ui/core";
-import {
-  AttachFile,
-  MoreVert,
-  SearchOutlined,
-  CompassCalibrationOutlined
-} from "@material-ui/icons";
+import { AttachFile, MoreVert, SearchOutlined } from "@material-ui/icons";
 import MicIcon from "@material-ui/icons/Mic";
 import InsertEmoticonIcon from "@material-ui/icons/InsertEmoticon";
 import firebase from "firebase";
@@ -29,8 +24,7 @@ function Chat() {
   const [{ user }, dispatch] = useStateValue();
   const childReference = useRef(null);
   const divRef = useRef(null);
-  const innerRef = useRef(null);
-  const scrollRef = useRef([]);
+  const inputRef = useRef(null);
 
   let history = useHistory();
   let classes = "color__search";
@@ -70,47 +64,21 @@ function Chat() {
     const findMessageIndex = messages.findIndex(
       mess => mess.message === searchInput
     );
-
-    const map1 = messages.map((mes, i) => {
-      const findindex = mes.message.includes(searchInput);
-      return findindex === true ? i : null;
-    });
-
-    console.log(map1);
-
-    // const findMessageIndex = messages.findIndex(
-    //   mess => mess.message === searchInput
-    // );
-
-    // const filterMessage = messages.filter(mes =>
-    //   mes.message.toLowerCase().includes(searchInput.toLowerCase())
-    // );
-
-    // console.log(filterMessage);
     // console.log({ findMessageIndex });
     if (findMessageIndex != -1) {
-      for (let i = 0; i < map1.length; i++) {
-        if (map1[i] !== null) {
-          if (scrollRef.current[map1[i]].className !== null) {
-            const theClassName = scrollRef.current[map1[i]].className;
-
-            scrollRef.current[map1[i]].style.background = "#FFFF99";
-            scrollRef.current[map1[i]].scrollIntoView({
-              behavior: "smooth"
-            });
-
-            setTimeout(() => {
-              if (scrollRef.current[map1[i]] !== null) {
-                theClassName === "chat__message chat__reciever"
-                  ? (scrollRef.current[map1[i]].style.backgroundColor =
-                      "#b8dcfa")
-                  : (scrollRef.current[map1[i]].style.backgroundColor =
-                      "white");
-              }
-            }, 6000);
-          }
-        }
-        // const elmnt = document.querySelector(`.findMessage${findMessageIndex}`);
+      const elmnt = document.querySelector(`.findMessage${findMessageIndex}`);
+      console.log(search);
+      if (search) {
+        document.querySelector(
+          // `.classes${findMessageIndex}`
+          `.color__search${findMessageIndex}`
+        ).style.backgroundColor = "rgba(34, 167, 240, 1)";
+        elmnt.scrollIntoView();
+        console.log("yes");
+      } else {
+        document.querySelector(
+          `.classes${findMessageIndex}`
+        ).style.backgroundColor = "white";
       }
     }
   };
@@ -123,7 +91,10 @@ function Chat() {
     }
   }, [messages]);
 
-  useEffect(() => {}, [search]);
+  // useEffect(() => {
+  //   console.log(divRef.current);
+  //   divRef.current.scrollIntoView({ behavior: "smooth" });
+  // }, []);
 
   useEffect(() => {
     // console.log(window.innerWidth);
@@ -132,6 +103,8 @@ function Chat() {
       document.querySelector(".sidebar").style.display = "none";
     }
   }, []);
+
+  useEffect(() => {}, [search]);
 
   useEffect(() => {
     if (roomId) {
@@ -170,18 +143,10 @@ function Chat() {
     setInput("");
   };
 
-  const myFunc = () => {
-    console.log(search);
+  const myFunc = e => {
     setSearch(!search);
-    // if (innerRef.current !== null) {
-    //   innerRef.current.focus();
-    // }
-    setTimeout(() => {
-      if (innerRef.current !== null) innerRef.current.focus();
-    }, 1000);
-
-    // innerRef.current.focus();
-    console.log(search);
+    console.log(inputRef);
+    inputRef.current.focus();
 
     // e.preventDefault();
     // setSearch(!search);
@@ -241,16 +206,14 @@ function Chat() {
 
           <div className="chat__headerInfo">
             <h3>
-              {roomName}
-              {user.email === "doribasson@gmail.com" && (
-                <i
-                  className="fas fa-trash-alt deleteUser"
-                  onClick={deleteConversation}
-                ></i>
-              )}
+              {roomName}{" "}
+              <i
+                className="fas fa-user-times deleteUser"
+                onClick={deleteConversation}
+              ></i>
             </h3>
             <p>
-              last seen
+              last seen{" "}
               {new Date(messages[messages.length - 1]?.timestamp?.toDate())
                 .toString()
                 .slice(0, 21)}
@@ -267,7 +230,7 @@ function Chat() {
         {/* <p>Last seem at ...</p> */}
         <div className="chat__headerRight">
           {/* <button onClick={deleteConversation}>clear Converstion</button> */}
-          <SearchOutlined className="search__button" onClick={myFunc} />
+          <SearchOutlined className="search__button" onClick={e => myFunc(e)} />
           {window.screen.width < 768 && (
             <i onClick={showSidebar} className="fas fa-arrow-right back"></i>
           )}
@@ -276,7 +239,7 @@ function Chat() {
             <div className="search__input">
               <form>
                 <input
-                  ref={innerRef}
+                  ref={inputRef}
                   value={searchInput}
                   // onChange={e => (onkeypress = { handleKeyDown })}
                   onChange={e => setSearchInput(e.target.value)}
@@ -286,18 +249,12 @@ function Chat() {
                   //     scrollIntoView(event);
                   //   }
                   // }}
-                  placeholder="search..."
+                  placeholder="input word"
                   type="text"
                 />
                 <button
-                  className="clearSearch"
-                  onChange={e => setSearchInput(e.target.value)}
-                  onClick={e => {
-                    e.preventDefault();
-                    setSearchInput("");
-                    innerRef.current.focus();
-                  }}
-                  // onClick={() => setSearch(false)}
+                  className="closeSearch"
+                  onClick={() => setSearch(false)}
                 >
                   x
                 </button>
@@ -314,7 +271,6 @@ function Chat() {
           console.log(user.displayName);
           return (
             <p
-              ref={el => (scrollRef.current[i] = el)}
               key={i}
               className={`chat__message ${message.name === user.displayName &&
                 "chat__reciever"}`}
@@ -348,6 +304,10 @@ function Chat() {
         <div className="content">Some text inside an element.</div>
       </div> */}
       <div className="chat__footer">
+        <InsertEmoticonIcon
+          className="emoji"
+          onClick={() => setEmojiFlag(prevEmojiState => !emoji)}
+        />
         {emoji && (
           <div>
             <MyEmoji
@@ -364,15 +324,8 @@ function Chat() {
             placeholder="Type a message"
             type="text"
           />
-          <InsertEmoticonIcon
-            className="emoji"
-            onClick={() => setEmojiFlag(prevEmojiState => !emoji)}
-          />
           <button onClick={sendMessage} type="submit">
-            <div className="circle">
-              {/* <i className="fas fa-play"></i> */}
-              <i className="far fa-paper-plane"></i>
-            </div>
+            Send a message
           </button>
         </form>
         {/* <MicIcon /> */}

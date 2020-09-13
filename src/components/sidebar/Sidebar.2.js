@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from "react";
-import ReactDOM from "react-dom";
 import "./Sidebar.css";
 import { Avatar, IconButton } from "@material-ui/core";
 import DonutLargeIcon from "@material-ui/icons/DonutLarge";
@@ -12,10 +11,9 @@ import { useStateValue } from "../../StateProvider";
 
 function Sidebar() {
   const [rooms, setRooms] = useState([]);
-  const [{ user, avatar }, dispatch] = useStateValue();
+  const [{ user }, dispatch] = useStateValue();
+  const scrollRef = useRef(null);
   const [searchTerm, setSearchTerm] = useState("");
-  const scrollRef = useRef([]);
-  const innerRef = useRef(null);
 
   useEffect(() => {
     console.log(user?.photoURL);
@@ -34,6 +32,10 @@ function Sidebar() {
     };
   }, []);
 
+  // const myScroll = () => {
+  //   console.log(searchTerm);
+  // };
+
   const handleChange = event => {
     setSearchTerm(event.target.value);
     // console.log(searchTerm);
@@ -43,20 +45,24 @@ function Sidebar() {
         // room.data.name.includes(searchTerm)
         room.data.name === searchTerm
     );
-    innerRef.current.focus();
     console.log(findRoomIndex);
 
     if (findRoomIndex != -1) {
-      // const elmnt = document.querySelector(`.scroll__search${findRoomIndex}`);
-      scrollRef.current[findRoomIndex].style.background = "#FFFF99";
-      scrollRef.current[findRoomIndex].scrollIntoView({
-        behavior: "smooth"
-      });
+      const elmnt = document.querySelector(`.scroll__search${findRoomIndex}`);
+      elmnt.scrollIntoView({ behavior: "smooth" });
+      elmnt.style.backgroundColor = "red";
       setTimeout(() => {
-        scrollRef.current[findRoomIndex].style.backgroundColor = "inherit";
-      }, 3000);
-      setSearchTerm("");
+        elmnt.style.backgroundColor = "inherit";
+      }, 4000);
+      // if (scrollRef.current) {
+      //   scrollRef[findRoomIndex].current.scrollIntoView({ behavior: "smooth" });
+      // scrollRef.current.style.backgroundColor = "red";
+      // setTimeout(() => {
+      //   scrollRef.current.style.backgroundColor = "inherit";
+      // }, 3000);
+      // }
     }
+
     // if (findRoomIndex != -1) {
     //   const elmnt = document.querySelector(`.scroll__search${findRoomIndex}`);
     //   elmnt.scrollIntoView();
@@ -73,22 +79,25 @@ function Sidebar() {
         {/* <Avatar src={user?.photoURL} /> */}
         {/* <Avatar src={user && user.photoURL} /> */}
         <Avatar src={user ? user.photoURL : null} />
-        <div className="sidebar__headerRight"></div>
+        <div className="sidebar__headerRight">
+          {/* <IconButton>
+            <DonutLargeIcon />
+          </IconButton>
+          <IconButton>
+            <ChatIcon />
+          </IconButton> */}
+          {/* <IconButton>
+            <MoreVerIcon />
+          </IconButton> */}
+        </div>
       </div>
 
       <div className="sidebar__search">
         <div className="sidebar__searchContainer">
-          <SearchOutlined
-            className="searchOutlined__input"
-            onClick={e => {
-              e.preventDefault();
-              handleChange(e);
-            }}
-          />
+          <SearchOutlined />
           <input
             placeholder="Search..."
             type="text"
-            ref={innerRef}
             onChange={handleChange}
             value={searchTerm}
             onKeyPress={event => {
@@ -97,38 +106,37 @@ function Sidebar() {
               }
             }}
           />
-
+          {/* 
           <button
-            className="clearSearch__sidebar"
-            onChange={e => setSearchTerm(e.target.value)}
-            onClick={e => {
-              e.preventDefault();
-              setSearchTerm("");
-              innerRef.current.focus();
+            style={{
+              border: "none",
+              outline: "none",
+              backgroundColor: "white",
+              fontSize: "1rem",
+              cursor: "pointer"
             }}
-            // onClick={() => setSearch(false)}
+            onClick={handleChange}
           >
-            x
-          </button>
+            🔍
+          </button> */}
         </div>
       </div>
 
       <div className="sidebar__chats">
         <SidebarChat addNewChat />
-
+        {/* <SidebarChat />
+        <SidebarChat />
+        <SidebarChat /> */}
         {rooms.map((room, i) => (
-          <div
-            key={i}
-            ref={el => (scrollRef.current[i] = el)}
-            // className={`scroll__search${i}`}
-          >
+          <div key={i} className={`scroll__search${i}`}>
+            {/* <div ref={scrollRef[i]}> */}
             <SidebarChat
+              // ref={scrollRef}
               key={room.id}
               id={room.id}
               name={room.data.name}
               rooms={rooms}
               searchTerm={searchTerm}
-              index={i}
             />
           </div>
         ))}

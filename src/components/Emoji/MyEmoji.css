@@ -1,0 +1,24 @@
+.container__emoji {
+  display: flex;
+  /* margin-bottom: 17.5rem !important; */
+  position: absolute;
+  margin-top: -22rem;
+  margin-left: 1rem;
+  /* width: 200px; */
+  /* margin-right: 1rem; */
+}
+
+@media (max-width: 767px) {
+  .container__emoji {
+    /* margin-left: -10.3rem;
+    margin-top: -20rem; */
+  }
+
+  .emoji-group {
+    /* height: 0px !important; */
+  }
+
+  .emoji-picker-react {
+    /* height: 250px !important; */
+  }
+}

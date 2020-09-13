@@ -10,10 +10,8 @@
   display: flex;
   background-color: rgba(137, 196, 244, 1);
   /* background-color: #ededed; */
-  /* height: 85vh;
-  width: 75vw; */
   height: 90vh;
-  width: 95vw;
+  width: 90vw;
 }
 
 @media (max-width: 767px) {
@@ -33,6 +31,7 @@
     /* flex-wrap: wrap; */
     height: 100vh;
     width: 100vw;
+    /* width: fit-content; */
 
     /* height: 100vh;
     width: 100vw; */

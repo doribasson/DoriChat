@@ -31,6 +31,7 @@ function Chat() {
   const divRef = useRef(null);
   const innerRef = useRef(null);
   const scrollRef = useRef([]);
+  const intervalRef = useRef();
 
   let history = useHistory();
   let classes = "color__search";
@@ -63,6 +64,7 @@ function Chat() {
   }
 
   const [width, height] = useWindowSize();
+  var timer1;
 
   const scrollIntoView = e => {
     console.log("dsdssd");
@@ -88,30 +90,27 @@ function Chat() {
 
     // console.log(filterMessage);
     // console.log({ findMessageIndex });
-    if (findMessageIndex != -1) {
-      for (let i = 0; i < map1.length; i++) {
-        if (map1[i] !== null) {
-          if (scrollRef.current[map1[i]].className !== null) {
-            const theClassName = scrollRef.current[map1[i]].className;
 
-            scrollRef.current[map1[i]].style.background = "#FFFF99";
-            scrollRef.current[map1[i]].scrollIntoView({
-              behavior: "smooth"
-            });
+    for (let i = 0; i < map1.length; i++) {
+      if (map1[i] !== null) {
+        if (scrollRef.current[map1[i]].className !== null) {
+          const theClassName = scrollRef.current[map1[i]].className;
 
-            setTimeout(() => {
-              if (scrollRef.current[map1[i]] !== null) {
-                theClassName === "chat__message chat__reciever"
-                  ? (scrollRef.current[map1[i]].style.backgroundColor =
-                      "#b8dcfa")
-                  : (scrollRef.current[map1[i]].style.backgroundColor =
-                      "white");
-              }
-            }, 6000);
-          }
+          scrollRef.current[map1[i]].style.background = "#FFFF99";
+          scrollRef.current[map1[i]].scrollIntoView({
+            behavior: "smooth"
+          });
+
+          intervalRef.current = setInterval(() => {
+            if (scrollRef.current[map1[i]] !== null) {
+              theClassName === "chat__message chat__reciever"
+                ? (scrollRef.current[map1[i]].style.backgroundColor = "#b8dcfa")
+                : (scrollRef.current[map1[i]].style.backgroundColor = "white");
+            }
+          }, 3000);
         }
-        // const elmnt = document.querySelector(`.findMessage${findMessageIndex}`);
       }
+      // const elmnt = document.querySelector(`.findMessage${findMessageIndex}`);
     }
   };
 
@@ -131,6 +130,9 @@ function Chat() {
     if (window.screen.width < 768) {
       document.querySelector(".sidebar").style.display = "none";
     }
+    return () => {
+      clearInterval(intervalRef.current);
+    };
   }, []);
 
   useEffect(() => {
@@ -242,12 +244,10 @@ function Chat() {
           <div className="chat__headerInfo">
             <h3>
               {roomName}
-              {user.email === "doribasson@gmail.com" && (
-                <i
-                  className="fas fa-trash-alt deleteUser"
-                  onClick={deleteConversation}
-                ></i>
-              )}
+              <i
+                className="fas fa-trash-alt deleteUser"
+                onClick={deleteConversation}
+              ></i>
             </h3>
             <p>
               last seen

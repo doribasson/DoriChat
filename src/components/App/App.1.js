@@ -11,8 +11,6 @@ function App() {
 
   const [{ user }, dispatch] = useStateValue();
 
-  console.log(user);
-
   return (
     <div className="app">
       {!user ? (
@@ -22,10 +20,12 @@ function App() {
           <Router>
             <Sidebar />
             <Switch>
-              <Route path="/rooms/:roomId" component={Chat}>
-                {/* <Chat /> */}
+              <Route path="/rooms/:roomId">
+                <Chat />
               </Route>
-              <Route path="/">{/* <Chat /> */}</Route>
+              <Route path="/">
+                <Chat />
+              </Route>
             </Switch>
           </Router>
         </div>

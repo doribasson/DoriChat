@@ -100,13 +100,10 @@ function Chat() {
             });
 
             setTimeout(() => {
-              if (scrollRef.current[map1[i]] !== null) {
-                theClassName === "chat__message chat__reciever"
-                  ? (scrollRef.current[map1[i]].style.backgroundColor =
-                      "#b8dcfa")
-                  : (scrollRef.current[map1[i]].style.backgroundColor =
-                      "white");
-              }
+              theClassName === "chat__message chat__reciever" &&
+              scrollRef.current[map1[i]].style !== null
+                ? (scrollRef.current[map1[i]].style.backgroundColor = "#b8dcfa")
+                : (scrollRef.current[map1[i]].style.backgroundColor = "white");
             }, 6000);
           }
         }
@@ -242,12 +239,10 @@ function Chat() {
           <div className="chat__headerInfo">
             <h3>
               {roomName}
-              {user.email === "doribasson@gmail.com" && (
-                <i
-                  className="fas fa-trash-alt deleteUser"
-                  onClick={deleteConversation}
-                ></i>
-              )}
+              <i
+                className="fas fa-trash-alt deleteUser"
+                onClick={deleteConversation}
+              ></i>
             </h3>
             <p>
               last seen

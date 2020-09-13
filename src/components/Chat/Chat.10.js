@@ -30,7 +30,6 @@ function Chat() {
   const childReference = useRef(null);
   const divRef = useRef(null);
   const innerRef = useRef(null);
-  const scrollRef = useRef([]);
 
   let history = useHistory();
   let classes = "color__search";
@@ -66,51 +65,25 @@ function Chat() {
 
   const scrollIntoView = e => {
     console.log("dsdssd");
-    e.preventDefault();
+    // e.preventDefault();
     const findMessageIndex = messages.findIndex(
       mess => mess.message === searchInput
     );
-
-    const map1 = messages.map((mes, i) => {
-      const findindex = mes.message.includes(searchInput);
-      return findindex === true ? i : null;
-    });
-
-    console.log(map1);
-
-    // const findMessageIndex = messages.findIndex(
-    //   mess => mess.message === searchInput
-    // );
-
-    // const filterMessage = messages.filter(mes =>
-    //   mes.message.toLowerCase().includes(searchInput.toLowerCase())
-    // );
-
-    // console.log(filterMessage);
     // console.log({ findMessageIndex });
     if (findMessageIndex != -1) {
-      for (let i = 0; i < map1.length; i++) {
-        if (map1[i] !== null) {
-          if (scrollRef.current[map1[i]].className !== null) {
-            const theClassName = scrollRef.current[map1[i]].className;
-
-            scrollRef.current[map1[i]].style.background = "#FFFF99";
-            scrollRef.current[map1[i]].scrollIntoView({
-              behavior: "smooth"
-            });
-
-            setTimeout(() => {
-              if (scrollRef.current[map1[i]] !== null) {
-                theClassName === "chat__message chat__reciever"
-                  ? (scrollRef.current[map1[i]].style.backgroundColor =
-                      "#b8dcfa")
-                  : (scrollRef.current[map1[i]].style.backgroundColor =
-                      "white");
-              }
-            }, 6000);
-          }
-        }
-        // const elmnt = document.querySelector(`.findMessage${findMessageIndex}`);
+      const elmnt = document.querySelector(`.findMessage${findMessageIndex}`);
+      console.log(search);
+      if (search) {
+        document.querySelector(
+          // `.classes${findMessageIndex}`
+          `.color__search${findMessageIndex}`
+        ).style.backgroundColor = "rgba(34, 167, 240, 1)";
+        elmnt.scrollIntoView();
+        console.log("yes");
+      } else {
+        document.querySelector(
+          `.classes${findMessageIndex}`
+        ).style.backgroundColor = "white";
       }
     }
   };
@@ -122,6 +95,11 @@ function Chat() {
       // divRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [messages]);
+
+  // useEffect(() => {
+  //   console.log(divRef.current);
+  //   divRef.current.scrollIntoView({ behavior: "smooth" });
+  // }, []);
 
   useEffect(() => {}, [search]);
 
@@ -242,12 +220,10 @@ function Chat() {
           <div className="chat__headerInfo">
             <h3>
               {roomName}
-              {user.email === "doribasson@gmail.com" && (
-                <i
-                  className="fas fa-trash-alt deleteUser"
-                  onClick={deleteConversation}
-                ></i>
-              )}
+              <i
+                className="fas fa-trash-alt deleteUser"
+                onClick={deleteConversation}
+              ></i>
             </h3>
             <p>
               last seen
@@ -286,18 +262,12 @@ function Chat() {
                   //     scrollIntoView(event);
                   //   }
                   // }}
-                  placeholder="search..."
+                  placeholder="input word"
                   type="text"
                 />
                 <button
-                  className="clearSearch"
-                  onChange={e => setSearchInput(e.target.value)}
-                  onClick={e => {
-                    e.preventDefault();
-                    setSearchInput("");
-                    innerRef.current.focus();
-                  }}
-                  // onClick={() => setSearch(false)}
+                  className="closeSearch"
+                  onClick={() => setSearch(false)}
                 >
                   x
                 </button>
@@ -314,7 +284,6 @@ function Chat() {
           console.log(user.displayName);
           return (
             <p
-              ref={el => (scrollRef.current[i] = el)}
               key={i}
               className={`chat__message ${message.name === user.displayName &&
                 "chat__reciever"}`}

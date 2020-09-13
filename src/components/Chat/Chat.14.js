@@ -242,12 +242,10 @@ function Chat() {
           <div className="chat__headerInfo">
             <h3>
               {roomName}
-              {user.email === "doribasson@gmail.com" && (
-                <i
-                  className="fas fa-trash-alt deleteUser"
-                  onClick={deleteConversation}
-                ></i>
-              )}
+              <i
+                className="fas fa-trash-alt deleteUser"
+                onClick={deleteConversation}
+              ></i>
             </h3>
             <p>
               last seen
