@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useLayoutEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "./App.css";
 import Sidebar from "../../components/sidebar/Sidebar";
@@ -10,11 +10,20 @@ function App() {
 
   const [{ user }, dispatch] = useStateValue();
 
-  const [width, setWidth] = useState(window.innerWidth);
+  function useWindowSize() {
+    const [size, setSize] = useState([0, 0]);
+    useLayoutEffect(() => {
+      function updateSize() {
+        setSize([window.innerWidth, window.innerHeight]);
+      }
+      window.addEventListener("resize", updateSize);
+      updateSize();
+      return () => window.removeEventListener("resize", updateSize);
+    }, []);
+    return size;
+  }
 
-  useEffect(() => {
-    setWidth(window.innerWidth);
-  }, [width]);
+  const [width, height] = useWindowSize();
 
   // console.log(user);
 
@@ -27,6 +36,7 @@ function App() {
         // document.querySelector(".sidebar").style.display = "flex";
 
         <div className="app__body">
+          {width}
           <Router>
             <Sidebar />
             <Switch>
