@@ -30,20 +30,7 @@ function Chat() {
   function useWindowSize() {
     const [size, setSize] = useState([0, 0]);
     useLayoutEffect(() => {
-      function updateSize() {
-        const checkDisplay = document.querySelector(".sidebar").style.display;
-        // console.log({ checkDisplay });
-        setSize([window.innerWidth, window.innerHeight]);
-        if (window.innerWidth > 768) {
-          document.querySelector(".sidebar").style.display = "flex";
-        }
-        // console.log(window.innerWidth);
-        // console.log(window.screen.width);
-        if (window.screen.width < 768 && checkDisplay === "flex") {
-          console.log(window.innerWidth);
-          document.querySelector(".sidebar").style.display = "none";
-        }
-      }
+      function updateSize() {}
       window.addEventListener("resize", updateSize);
       updateSize();
       return () => window.removeEventListener("resize", updateSize);
@@ -105,9 +92,6 @@ function Chat() {
   useEffect(() => {
     // console.log(window.innerWidth);
     // console.log(window.screen.width);
-    if (window.screen.width < 768) {
-      document.querySelector(".sidebar").style.display = "none";
-    }
   }, []);
 
   useEffect(() => {
@@ -160,8 +144,8 @@ function Chat() {
   const showSidebar = () => {
     if (window.screen.width < 768) {
       // console.log("showsidebar");
-      document.querySelector(".sidebar").style.display = "flex";
-      document.querySelector(".chat").style.display = "none";
+      // document.querySelector(".sidebar").style.display = "flex";
+      // document.querySelector(".chat").style.display = "none";
       history.push("/");
     }
   };

@@ -10,10 +10,11 @@ function App() {
 
   const [{ user }, dispatch] = useStateValue();
 
-  const [width, setWidth] = useState(window.innerWidth);
+  const [width, setWidth] = useState(window.screen.width);
 
   useEffect(() => {
-    setWidth(window.innerWidth);
+    setWidth(window.screen.width);
+    console.log({ width });
   }, [width]);
 
   // console.log(user);
@@ -23,19 +24,11 @@ function App() {
       {!user ? (
         <Login />
       ) : (
-        // (window.innerWidth > 768) ?  className="web" : className="phone"
-        // document.querySelector(".sidebar").style.display = "flex";
-
         <div className="app__body">
           <Router>
-            <Sidebar />
             <Switch>
               <Route path="/rooms/:roomId" component={Chat}></Route>
-              {width < 768 ? (
-                <Route path="/" component={Sidebar}></Route>
-              ) : (
-                <Route path="/"></Route>
-              )}
+              <Route path="/" component={Sidebar}></Route>
             </Switch>
           </Router>
         </div>
