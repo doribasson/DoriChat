@@ -11,6 +11,16 @@ const firebaseConfig = {
   measurementId: "G-B5N494MJXH"
 };
 
+// const firebaseConfig = {
+//   apiKey: "AIzaSyAxfqy8FkoSiM2fE1pQqtsDZqTSJV8euwg",
+//   authDomain: "doribasson-chat.firebaseapp.com",
+//   databaseURL: "https://doribasson-chat.firebaseio.com",
+//   projectId: "doribasson-chat",
+//   storageBucket: "doribasson-chat.appspot.com",
+//   messagingSenderId: "299407529071",
+//   appId: "1:299407529071:web:472472d3afea69ecc0a99a"
+// };
+
 const firebaseApp = firebase.initializeApp(firebaseConfig);
 const db = firebaseApp.firestore();
 const auth = firebase.auth();

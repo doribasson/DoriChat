@@ -21,10 +21,8 @@ function App() {
           <Router>
             <Sidebar />
             <Switch>
-              <Route path="/rooms/:roomId" component={Chat}>
-                {/* <Chat /> */}
-              </Route>
-              <Route path="/">{/* <Chat /> */}</Route>
+              <Route path="/rooms/:roomId" component={Chat}></Route>
+              <Route path="/" component={Sidebar}></Route>
             </Switch>
           </Router>
         </div>
