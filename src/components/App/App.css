@@ -20,6 +20,14 @@
   display: none;
 }
 
+.try {
+  display: flex;
+}
+
+.try1 {
+  display: flex;
+}
+
 @media (max-width: 767px) {
   .app {
     display: grid;

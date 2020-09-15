@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useLayoutEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "./App.css";
 import Sidebar from "../../components/sidebar/Sidebar";
@@ -7,30 +7,41 @@ import Login from "../../components/Login/Login";
 import { useStateValue } from "../../StateProvider";
 function App() {
   // const [user, setUser] = useState(null);
+  const [width, setWidth] = useState(window.innerWidth);
 
   const [{ user }, dispatch] = useStateValue();
+  const mobile = window.innerWidth <= 500;
 
-  const [width, setWidth] = useState(window.screen.width);
+  useLayoutEffect(() => {
+    window.addEventListener("resize", updateSize);
+    return () => window.removeEventListener("resize", updateSize);
+  }, []);
 
-  useEffect(() => {
-    setWidth(window.screen.width);
-    console.log({ width });
-  }, [width]);
-
-  // console.log(user);
-
+  function updateSize() {
+    setWidth(window.innerWidth);
+    // console.log(window.innerWidth);
+  }
   return (
     <div className="app">
       {!user ? (
         <Login />
       ) : (
         <div className="app__body">
-          <Router>
-            <Switch>
-              <Route path="/rooms/:roomId" component={Chat}></Route>
-              <Route path="/" component={Sidebar}></Route>
-            </Switch>
-          </Router>
+          {mobile ? (
+            <Router>
+              <Switch>
+                <Route path="/rooms/:roomId" component={Chat}></Route>
+                <Route path="/" component={Sidebar}></Route>
+              </Switch>
+            </Router>
+          ) : (
+            <Router>
+              <Sidebar />
+              <Switch>
+                <Route path="/rooms/:roomId" component={Chat}></Route>
+              </Switch>
+            </Router>
+          )}
         </div>
       )}
     </div>

@@ -6,7 +6,7 @@ import SidebarChat from "./sidebarChat/SidebarChat";
 import db from "../../firebase";
 import { useStateValue } from "../../StateProvider";
 
-function Sidebar() {
+function Sidebar({ children }) {
   const [rooms, setRooms] = useState([]);
   const [{ user, avatar }, dispatch] = useStateValue();
   const [searchTerm, setSearchTerm] = useState("");
